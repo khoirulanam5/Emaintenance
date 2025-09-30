@@ -5,29 +5,19 @@ class DataKendaraan extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
-        $this->load->library('session');
-        $this->load->library('form_validation');
+        $this->load->model(['KendaraanModel']);
+        isadmin();
     }
 
     public function index() {
         $data['title'] = "Data Kendaraan";
-        $data['kendaraan'] = $this->db->get('tb_kendaraan')->result();
+        $data['kendaraan'] = $this->KendaraanModel->getAll()->result();
 
         $this->load->view('template/header', $data);
         $this->load->view('template/sidebar', $data);
         $this->load->view('admin/data_kendaraan', $data);
         $this->load->view('template/footer');
     }
-
-    public function generateNoPol(){
-        $unik = 'POL';
-        $kode = $this->db->query("SELECT MAX(no_polisi) LAST_NO FROM tb_kendaraan WHERE no_polisi LIKE '".$unik."%'")->row()->LAST_NO;
-        $urutan = (int) substr($kode, 3, 6);
-        $urutan++;
-        $huruf = $unik;
-        $kode = $huruf . sprintf("%06s", $urutan);
-        return $kode;
-      }
 
     public function add() {
         $this->form_validation->set_rules('no_polisi', 'Nomer Polisi', 'required');
@@ -39,7 +29,6 @@ class DataKendaraan extends CI_Controller {
             $this->session->set_flashdata("pesan", "<script>Swal.fire({title:'Maaf', text:'Ada yang salah, Periksa inputan kembali', icon:'warning'})</script>");
             redirect('admin/datakendaraan');
         } else {
-
             // Konfigurasi upload
             $config['allowed_types'] = 'gif|jpg|png|jpeg';
             $config['max_size'] = '2048';
@@ -55,7 +44,8 @@ class DataKendaraan extends CI_Controller {
                 'foto' => $image,
                 'is_ready' => $this->input->post('is_ready')
             ];
-            $this->db->insert('tb_kendaraan', $data);
+            $this->KendaraanModel->save($data);
+
             $this->session->set_flashdata("pesan", "<script>Swal.fire({title:'Berhasil', text:'Data kendaraan berhasil ditambahkan', icon:'success'})</script>");
             redirect('admin/datakendaraan');
         }
@@ -70,8 +60,6 @@ class DataKendaraan extends CI_Controller {
             $this->session->set_flashdata("pesan", "<script>Swal.fire({title:'Maaf', text:'Ada yang salah, Periksa inputan kembali', icon:'warning'})</script>");
             redirect('admin/datakendaraan');
         } else {
-            $no_polisi = $this->input->post('no_polisi');
-
             // Konfigurasi upload
             $config['allowed_types'] = 'gif|jpg|png|jpeg';
             $config['max_size'] = '2048';
@@ -87,8 +75,7 @@ class DataKendaraan extends CI_Controller {
                 'foto' => $image,
                 'is_ready' => $this->input->post('is_ready')
             ];
-            $this->db->where('no_polisi', $no_polisi);
-            $this->db->update('tb_kendaraan', $data);
+            $this->KendaraanModel->edit($no_polisi, $data);
 
             $this->session->set_flashdata("pesan", "<script>Swal.fire({title:'Berhasil', text:'Data kendaraan berhasil diupdate', icon:'success'})</script>");
             redirect('admin/datakendaraan');
@@ -96,8 +83,8 @@ class DataKendaraan extends CI_Controller {
     }
 
     public function delete($no_polisi) {
-        $this->db->where('no_polisi', $no_polisi);
-        $this->db->delete('tb_kendaraan');
+        $this->KendaraanModel->delete($no_polisi);
+
         $this->session->set_flashdata("pesan", "<script>Swal.fire({title:'Berhasil', text:'Data kendaraan berhasil dihapus', icon:'success'})</script>");
         redirect('admin/datakendaraan');
     }

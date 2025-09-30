@@ -1,6 +1,6 @@
 <div class="container-fluid">
 	<div class="d-sm-flex align-items-center justify-content-between mb-4">
-		<h3 class="h3 mb-0 text-gray-800"><b><?= $title?></b></h3>
+		<h3 class="h3 mb-0 text-gray-800"><b><?= $title ?></b></h3>
 	</div>
 	<button class="btn btn-sm btn-primary mb-3" data-toggle="modal" data-target="#add"><i class="fas fa-plus fa-sm"></i> Tambah</button>
 	<?= $this->session->flashdata('pesan') ?>
@@ -107,10 +107,9 @@
         </button>
       </div>
       <div class="modal-body">
-        <form action="<?= base_url('admin/datateknisi/edit/'.$value->id_user) ?>" method="post" enctype="multipart/form_data">
+        <form action="<?= base_url('admin/datateknisi/edit/' . $value->id_user) ?>" method="post" enctype="multipart/form_data">
                 <div class="form-group">
                     <label>Nama</label>
-                    <input type="hidden" name="id_user" value="<?= $value->id_user ?>">
                     <input type="text" name="nama" id="nama" class="form-control" value="<?= $value->nama ?>" required>
                 </div>
                 <div class="form-group">

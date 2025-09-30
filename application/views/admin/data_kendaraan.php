@@ -113,10 +113,9 @@
         </button>
       </div>
       <div class="modal-body">
-      <form action="<?= base_url('admin/datakendaraan/edit/'.$value->no_polisi) ?>" method="post" enctype="multipart/form-data">
+      <form action="<?= base_url('admin/datakendaraan/edit/' . $value->no_polisi) ?>" method="post" enctype="multipart/form-data">
         	<div class="form-group">
         		<label>Merk</label>
-            <input type="hidden" name="no_polisi" value="<?= $value->no_polisi ?>">
         		<input type="text" name="merk" id="merk" class="form-control" value="<?= $value->merk ?>" required>
         	</div>
         	<div class="form-group">
@@ -127,14 +126,6 @@
         		<label>Foto</label>
         		<input type="file" name="foto" id="foto" class="form-control" value="<?= $value->foto ?>" required>
         	</div>
-          <!-- <div class="form-group">
-        		<label>Status</label>
-        		<select class="form-control" name="is_ready" id="is_ready" required>
-                    <option value="">-- Status Kendaraan --</option>
-                    <option value="1" <?= $value->is_ready == '1' ? 'selected' : '' ?>>Ada</option>
-                    <option value="0" <?= $value->is_ready == '0' ? 'selected' : '' ?>>Tidak Ada</option>
-                </select>
-        	</div> -->
           <input type="hidden" name="is_ready" value="<?= $value->is_ready ?>">
       </div>
       <div class="modal-footer">

@@ -20,7 +20,6 @@
 							<th class="text-center" style="width: 5%;">AKSI</th>
 						</tr>
 					</thead>
-					<!-- <?php if(empty($service->status)): ?> -->
 					<tbody>
 						<?php
 						$no = 1;
@@ -35,18 +34,15 @@
 								<td><?= $value->tgl_setelah_service ?></td>
                                 <td><?= $value->uraian ?></td>
 								<td>
-                                    <a class="btn btn-sm btn-primary m-1" href="<?= base_url('teknisi/service/edit/'.$value->id_service) ?>"><i class="fas fa-edit fa-sm"></i></a>
+                                    <a class="btn btn-sm btn-primary m-1" href="<?= base_url('teknisi/service/edit/' . $value->id_service) ?>"><i class="fas fa-edit fa-sm"></i></a>
 									<?php if(!empty($value->tgl_setelah_service)): ?>
-                                    <a class="btn btn-success btn-sm m-1 end" href="<?= base_url('teknisi/service/end/'.$value->id_service) ?>"><i class="fas fa-check text-white"></i></a>
+                                    <a class="btn btn-success btn-sm m-1 end" href="<?= base_url('teknisi/service/end/' . $value->id_service) ?>"><i class="fas fa-check text-white"></i></a>
 									<?php endif; ?>
 								</td>
 							</tr>
 						<?php endforeach; ?>
 					</tbody>
 				</table>
-				<!-- <?php else : ?>
-					<div class="alert alert-warning text-center col-md-6">Tidak ada kendaraan yang ingin di service.</div>
-				<?php endif; ?> -->
 			</div>
 		</div>
 	</div>

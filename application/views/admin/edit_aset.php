@@ -11,7 +11,6 @@
 						<div class="col-md-6">
 							<div class="form-group">
 								<label for="no_aset">Nomer Aset</label>
-								<input type="hidden" name="id_kendaraan" value="<?= $value->id_kendaraan ?>">
 								<input type="text" name="no_aset" id="no_aset" value="<?= set_value('no_aset', $value->no_aset) ?>" class="form-control" readonly>
 								<?= form_error('no_aset', '<div class="text-danger small">', '</div>') ?>
 							</div>

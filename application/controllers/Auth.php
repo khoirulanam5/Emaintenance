@@ -2,10 +2,9 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Auth extends CI_Controller {
+
     public function __construct() {
         parent::__construct();
-        $this->load->library('form_validation');
-        $this->load->library('session');
     }
 
     public function index() {
@@ -51,7 +50,6 @@ class Auth extends CI_Controller {
                         'id_teknisi' => $id_teknisi,
                         'id_supir' => $id_supir
                     ];
-                    
                     $this->session->set_userdata($ses);
 
                     if ($cek->role == 'admin maintenance') {

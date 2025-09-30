@@ -2,7 +2,7 @@
 	<div class="d-sm-flex align-items-center justify-content-between mb-4">
 		<h3 class="h3 mb-0 text-gray-800"><b><?= $title ?></b></h3>
 	</div>
-    <a href="<?= base_url('admin/riwayatservice/print') ?>" class="btn btn-sm btn-primary mb-3"><i class="fas fa-print fa-sm"></i> Print</a>
+    <a href="<?= base_url('admin/riwayatservice/print') ?>" class="btn btn-sm btn-primary mb-3" target="_blank"><i class="fas fa-print fa-sm"></i> Print</a>
 	<?= $this->session->flashdata('pesan') ?>
 	<div class="card shadow">
 		<div class="card-body">

@@ -5,42 +5,19 @@ class DataTeknisi extends CI_Controller {
     
     public function __construct() {
         parent::__construct();
-        $this->load->library('session');
-        $this->load->library('form_validation');
+        $this->load->model(['UserModel', 'TeknisiModel']);
+        isadmin();
     }
 
     public function index() {
         $data['title'] = 'Data Teknisi';
-        $this->db->select('tb_teknisi.*, tb_user.*');
-        $this->db->from('tb_teknisi');
-        $this->db->join('tb_user', 'tb_teknisi.id_user = tb_user.id_user');
-        $data['teknisi'] = $this->db->get()->result();
+        $data['teknisi'] = $this->TeknisiModel->getAll()->result();
 
         $this->load->view('template/header', $data);
         $this->load->view('template/sidebar', $data);
         $this->load->view('admin/data_teknisi', $data);
         $this->load->view('template/footer');
     }
-
-    public function generateIdTeknisi(){
-        $unik = 'TK';
-        $kode = $this->db->query("SELECT MAX(id_teknisi) LAST_NO FROM tb_teknisi WHERE id_teknisi LIKE '".$unik."%'")->row()->LAST_NO;
-        $urutan = (int) substr($kode, 2, 3);
-        $urutan++;
-        $huruf = $unik;
-        $kode = $huruf . sprintf("%03s", $urutan);
-        return $kode;
-      }
-
-    public function generateIdUser(){
-        $unik = 'US';
-        $kode = $this->db->query("SELECT MAX(id_user) LAST_NO FROM tb_user WHERE id_user LIKE '".$unik."%'")->row()->LAST_NO;
-        $urutan = (int) substr($kode, 2, 3);
-        $urutan++;
-        $huruf = $unik;
-        $kode = $huruf . sprintf("%03s", $urutan);
-        return $kode;
-      }
 
     public function add() {
         $this->form_validation->set_rules('nama', 'Nama', 'required');
@@ -53,24 +30,23 @@ class DataTeknisi extends CI_Controller {
             $this->session->set_flashdata("pesan", "<script>Swal.fire({title:'Maaf', text:'Username sudah digunakan', icon:'warning'})</script>");
             redirect('admin/datateknisi');
         } else {
-            $user = [
-                'id_user' => $this->generateIdUser(), 
+            $data = [
+                'id_user' => $this->UserModel->generateId(), 
                 'nama' => $this->input->post('nama'),
                 'no_hp' => $this->input->post('no_hp'),
                 'username' => $this->input->post('username'),
                 'password' => $this->input->post('password'),
                 'role' => 'teknisi'
             ];
-            $this->db->insert('tb_user', $user);
-
-            $id_user = $user['id_user'];
+            $this->UserModel->save($data);
+            $id_user = $data['id_user'];
 
             $teknisi = [
-                'id_teknisi' => $this->generateIdTeknisi(),
+                'id_teknisi' => $this->TeknisiModel->generateId(),
                 'id_user' => $id_user,
                 'is_ready' => $this->input->post('is_ready')
             ];
-            $this->db->insert('tb_teknisi', $teknisi);
+            $this->TeknisiModel->save($teknisi);
 
             $this->session->set_flashdata("pesan", "<script>Swal.fire({title:'Berhasil', text:'Data teknisi berhasil ditambahkan', icon:'success'})</script>");
             redirect('admin/datateknisi');
@@ -88,24 +64,20 @@ class DataTeknisi extends CI_Controller {
             $this->session->set_flashdata("pesan", "<script>Swal.fire({title:'Maaf', text:'Username sudah digunakan', icon:'warning'})</script>");
             redirect('admin/datateknisi');
         } else {
-            $id = $this->input->post('id_user');
-
-            $user = [
+            $data = [
                 'nama' => $this->input->post('nama'),
                 'no_hp' => $this->input->post('no_hp'),
                 'username' => $this->input->post('username'),
                 'password' => $this->input->post('password'),
                 'role' => 'teknisi'
             ];
-            $this->db->where('id_user', $id);
-            $this->db->update('tb_user', $user);
+            $this->UserModel->edit($id_user, $data);
 
             $teknisi = [
-                'id_user' => $id,
+                'id_user' => $id_user,
                 'is_ready' => $this->input->post('is_ready')
             ];
-            $this->db->where('id_user', $id);
-            $this->db->update('tb_teknisi', $teknisi);
+            $this->TeknisiModel->edit($id_user, $teknisi);
 
             $this->session->set_flashdata("pesan", "<script>Swal.fire({title:'Berhasil', text:'Data teknisi berhasil diupdate', icon:'success'})</script>");
             redirect('admin/datateknisi');
@@ -113,19 +85,9 @@ class DataTeknisi extends CI_Controller {
     }
 
     public function delete($id_user) {
-        $this->db->trans_start();
-        $this->db->where('id_teknisi', $id_user);
-        $this->db->delete('tb_teknisi');
+        $this->TeknisiModel->delete($id_user);
     
-        $this->db->where('id_user', $id_user);
-        $this->db->delete('tb_user');
-        $this->db->trans_complete();
-    
-        if ($this->db->trans_status() == FALSE) {
-            $this->session->set_flashdata("pesan", "<script>Swal.fire({title:'Gagal', text:'Data teknisi gagal dihapus', icon:'error'})</script>");
-        } else {
-            $this->session->set_flashdata("pesan", "<script>Swal.fire({title:'Berhasil', text:'Data teknisi berhasil dihapus', icon:'success'})</script>");
-        }
+        $this->session->set_flashdata("pesan", "<script>Swal.fire({title:'Berhasil', text:'Data teknisi berhasil dihapus', icon:'success'})</script>");
         redirect('admin/datateknisi');
     }
 }

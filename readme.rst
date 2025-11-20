@@ -1,71 +1,154 @@
-###################
-What is CodeIgniter
-###################
+# 🚗 Sistem Maintenance Kendaraan  
+### *Manajemen Perawatan Kendaraan – Role Admin, Sopir, dan Teknisi*
 
-CodeIgniter is an Application Development Framework - a toolkit - for people
-who build web sites using PHP. Its goal is to enable you to develop projects
-much faster than you could if you were writing code from scratch, by providing
-a rich set of libraries for commonly needed tasks, as well as a simple
-interface and logical structure to access these libraries. CodeIgniter lets
-you creatively focus on your project by minimizing the amount of code needed
-for a given task.
+Aplikasi ini adalah sistem manajemen maintenance kendaraan yang dibangun menggunakan **CodeIgniter 3**, **MySQL**, dan frontend **HTML, CSS, JavaScript, Bootstrap**. Sistem ini membantu perusahaan memantau kondisi kendaraan, jadwal maintenance, dan riwayat perbaikan secara lebih efisien dengan dukungan multi-role.
 
-*******************
-Release Information
-*******************
+---
 
-This repo contains in-development code for future releases. To download the
-latest stable release please visit the `CodeIgniter Downloads
-<https://codeigniter.com/download>`_ page.
+## 📌 Fitur Utama
 
-**************************
-Changelog and New Features
-**************************
+### 🧑‍💼 Admin
+- Mengelola data kendaraan (tambah, edit, hapus)  
+- Mengelola data sopir dan teknisi  
+- Mengatur jadwal maintenance kendaraan  
+- Menyetujui/menolak permintaan perbaikan  
+- Melihat laporan riwayat maintenance  
+- Dashboard monitoring kondisi kendaraan  
 
-You can find a list of all changes for each release in the `user
-guide change log <https://github.com/bcit-ci/CodeIgniter/blob/develop/user_guide_src/source/changelog.rst>`_.
+### 🚚 Sopir
+- Mengajukan permintaan perbaikan kendaraan  
+- Melaporkan kerusakan atau kendala kendaraan  
+- Melihat status maintenance kendaraan  
+- Mengisi checklist harian kendaraan (opsional)  
 
-*******************
-Server Requirements
-*******************
+### 🔧 Teknisi
+- Melihat daftar permintaan perbaikan  
+- Mengupdate status pengerjaan (proses, selesai, pending)  
+- Mengisi detail hasil perbaikan  
+- Mengupload laporan teknis jika diperlukan  
 
-PHP version 5.6 or newer is recommended.
+---
 
-It should work on 5.3.7 as well, but we strongly advise you NOT to run
-such old versions of PHP, because of potential security and performance
-issues, as well as missing features.
+## 🛠️ Teknologi yang Digunakan
 
-************
-Installation
-************
+| Bagian         | Teknologi                       |
+|----------------|----------------------------------|
+| Backend        | CodeIgniter 3                    |
+| Frontend       | HTML, CSS, JavaScript, Bootstrap |
+| Database       | MySQL                            |
+| Grafik         | Chart.js (opsional)              |
 
-Please see the `installation section <https://codeigniter.com/userguide3/installation/index.html>`_
-of the CodeIgniter User Guide.
+---
 
-*******
-License
-*******
+## 📂 Struktur Direktori (Ringkas)
 
-Please see the `license
-agreement <https://github.com/bcit-ci/CodeIgniter/blob/develop/user_guide_src/source/license.rst>`_.
+```
+/application
+    /controllers
+    /models
+    /views
+/assets
+    /css
+    /js
+    /images
+/database
+    maintenance.sql
+/uploads
+    /kendaraan
+    /laporan
+```
 
-*********
-Resources
-*********
+---
 
--  `User Guide <https://codeigniter.com/docs>`_
--  `Contributing Guide <https://github.com/bcit-ci/CodeIgniter/blob/develop/contributing.md>`_
--  `Language File Translations <https://github.com/bcit-ci/codeigniter3-translations>`_
--  `Community Forums <http://forum.codeigniter.com/>`_
--  `Community Wiki <https://github.com/bcit-ci/CodeIgniter/wiki>`_
--  `Community Slack Channel <https://codeigniterchat.slack.com>`_
+## 📥 Instalasi & Setup
 
-Report security issues to our `Security Panel <mailto:security@codeigniter.com>`_
-or via our `page on HackerOne <https://hackerone.com/codeigniter>`_, thank you.
+### 1️⃣ Clone Repository
+```bash
+git clone https://github.com/username/maintenance-kendaraan.git
+```
 
-***************
-Acknowledgement
-***************
+### 2️⃣ Pindahkan ke Folder Server Local
+Taruh di:
+```
+htdocs/ (XAMPP) atau public_html (hosting)
+```
 
-The CodeIgniter team would like to thank EllisLab, all the
-contributors to the CodeIgniter project and you, the CodeIgniter user.
+### 3️⃣ Import Database
+- Buka **phpMyAdmin**
+- Buat database baru
+- Import file:
+```
+database/maintenance.sql
+```
+
+### 4️⃣ Konfigurasi Database
+
+**application/config/database.php**
+```php
+$db['default'] = array(
+    'hostname' => 'localhost',
+    'username' => 'root',
+    'password' => '',
+    'database' => 'maintenance',
+    'dbdriver' => 'mysqli'
+);
+```
+
+### 5️⃣ Setting Base URL
+
+**application/config/config.php**
+```php
+$config['base_url'] = 'http://localhost/maintenance-kendaraan/';
+```
+
+---
+
+## 🔧 Modul Utama di Dalam Sistem
+
+- **Manajemen kendaraan** (no. polisi, jenis, merk, km awal, kondisi)  
+- **Permintaan perbaikan oleh sopir**  
+- **Penugasan teknisi**  
+- **Jadwal maintenance berkala**  
+- **Monitoring pekerjaan teknisi**  
+- **Riwayat maintenance kendaraan** lengkap  
+- **Laporan PDF** (jika tersedia)  
+
+---
+
+## 🔐 Akun Login Default
+
+| Role      | Username | Password |
+|-----------|----------|----------|
+| Admin     | admin    | admin    |
+| Sopir     | sopir    | sopir    |
+| Teknisi   | teknisi  | teknisi  |
+
+> Sangat disarankan untuk mengganti password setelah login.
+
+---
+
+## 🖼️ Screenshot (Opsional)
+
+Bisa menambahkan screenshot seperti:
+- Dashboard  
+- Daftar kendaraan  
+- Form pengajuan perbaikan  
+- Halaman teknisi  
+- Laporan maintenance  
+
+---
+
+## 📝 Lisensi
+
+Proyek ini dapat digunakan, dimodifikasi, dan dikembangkan sesuai kebutuhan internal.
+
+---
+
+## 💡 Kontribusi
+
+Pull request sangat diterima.  
+Laporkan bug atau ide fitur melalui *Issues*.
+
+---
+
+### ⭐ Jika aplikasi ini bermanfaat, jangan lupa beri **Star** pada repository!
